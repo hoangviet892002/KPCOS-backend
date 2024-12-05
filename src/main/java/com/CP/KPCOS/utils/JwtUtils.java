@@ -59,7 +59,11 @@ public class JwtUtils {
             throw new AppException(ResponseEnum.TOKEN_INVALID);
         }
 
-        JWSVerifier jwsVerifier = new MACVerifier(secret.getBytes());
+        byte[] key = secret.getBytes(StandardCharsets.UTF_8);
+        if (key.length < 32) {
+            key = Arrays.copyOf(key, 32);
+        }
+        JWSVerifier jwsVerifier = new MACVerifier(key);
         SignedJWT signedJWT = SignedJWT.parse(token);
 
         Date expiryTime = (isRefresh)

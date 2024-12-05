@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @SecurityScheme(
-        name = "Api-Key",
+        name = "Authorization",
         description = "API Key Authentication",
         type = SecuritySchemeType.APIKEY,
         in = SecuritySchemeIn.HEADER

@@ -15,6 +15,8 @@ public enum ResponseEnum {
     WRONG_PASSWORD_OR_USERNAME(1003, "Wrong password or username", HttpStatus.BAD_REQUEST),
     USER_ALREADY_EXISTS(1004, "User already exists", HttpStatus.BAD_REQUEST),
     EMAIL_ALREADY_EXISTS(1005, "Email already exists", HttpStatus.BAD_REQUEST),
+    TOKEN_MISSING(1006, "Token is missing", HttpStatus.INTERNAL_SERVER_ERROR),
+    INVALID_TOKEN(1007, "Invalid token", HttpStatus.INTERNAL_SERVER_ERROR),
 
 
 

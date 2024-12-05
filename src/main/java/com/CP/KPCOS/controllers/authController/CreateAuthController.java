@@ -5,6 +5,7 @@ import com.CP.KPCOS.dtos.response.BaseResponse;
 import com.CP.KPCOS.dtos.response.object.RegisterResponseApi;
 import com.CP.KPCOS.services.AuthService.AuthService;
 import com.nimbusds.jose.JOSEException;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import java.text.ParseException;
 
 @RestController
 @Tag(name = "Auth Controller", description = "Auth Controller")
+@SecurityRequirement(name = "Authorization")
 @RequestMapping("/api/v1/auth")
 public class CreateAuthController {
     private final AuthService authService;

@@ -31,4 +31,6 @@ public class ErrorDetails {
         this.message = message;
         this.errors = errors;
     }
+    public ErrorDetails(Date timestamp, int value, String message, String tokenIsRequired) {
+    }
 }
