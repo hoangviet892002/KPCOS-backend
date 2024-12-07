@@ -1,18 +1,14 @@
 package com.CP.KPCOS.filters;
 
 
-import com.CP.KPCOS.exceptions.AppException;
 import com.CP.KPCOS.exceptions.ErrorDetails;
-import com.CP.KPCOS.shared.enums.ResponseEnum;
 import com.CP.KPCOS.utils.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.jose.JOSEException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
@@ -20,12 +16,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Component
 @RequiredArgsConstructor
@@ -59,15 +52,15 @@ public class JWTFilter extends OncePerRequestFilter {
                 return;
             }
         }
-            String token = request.getHeader("Authorization");
-            if (token == null || token.isEmpty()) {
-                response.setStatus(HttpStatus.BAD_REQUEST.value());
-                ErrorDetails errorDetails = new ErrorDetails(new Date(), HttpStatus.BAD_REQUEST.value(), request.getRequestURI(), "Bad Request", "Token is required", List.of("Token is required"));
-                ObjectMapper objectMapper = new ObjectMapper();
-                response.setContentType("application/json");
-                objectMapper.writeValue(response.getWriter(), errorDetails);
-                return;
-            }
+        String token = request.getHeader("Authorization");
+        if (token == null || token.isEmpty()) {
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+            ErrorDetails errorDetails = new ErrorDetails(new Date(), HttpStatus.BAD_REQUEST.value(), request.getRequestURI(), "Bad Request", "Token is required", List.of("Token is required"));
+            ObjectMapper objectMapper = new ObjectMapper();
+            response.setContentType("application/json");
+            objectMapper.writeValue(response.getWriter(), errorDetails);
+            return;
+        }
         try {
             jwtUtil.verifyToken(token, false);
         } catch (Exception e) {

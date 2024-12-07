@@ -1,13 +1,13 @@
 package com.CP.KPCOS.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Getter
@@ -22,5 +22,5 @@ public class RoleEntity extends BaseEntity {
     String name;
     String description;
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    private List <UserEntity> users;
+    private List<UserEntity> users;
 }

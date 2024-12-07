@@ -9,14 +9,12 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
@@ -27,7 +25,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.StringJoiner;
 import java.util.UUID;
 
 @Slf4j
@@ -80,7 +77,7 @@ public class JwtUtils {
     }
 
 
-    private void storeActiveToken (String token) {
+    private void storeActiveToken(String token) {
         redisTemplate.opsForValue().set(ACTIVE_TOKEN_PREFIX + token, true, expiration);
     }
 
@@ -89,9 +86,11 @@ public class JwtUtils {
         return user.getRole().getName();
 
     }
-    private  boolean isTokenBlacklisted(String token) {
+
+    private boolean isTokenBlacklisted(String token) {
         return Boolean.TRUE.equals(redisTemplate.hasKey(TOKEN_BLACKLIST_PREFIX + token));
     }
+
     private String generateToken(JWTClaimsSet claimsSet) {
         try {
             JWSObject jwsObject = new JWSObject(new JWSHeader(JWSAlgorithm.HS256), new Payload(claimsSet.toJSONObject()));
@@ -110,7 +109,7 @@ public class JwtUtils {
     }
 
 
-    public String generateToken (UserEntity user) {
+    public String generateToken(UserEntity user) {
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
                 .issuer("com.templateredis")
@@ -145,6 +144,7 @@ public class JwtUtils {
             return false;
         }
     }
+
     public void logout(String token) {
         redisTemplate.opsForValue().set(TOKEN_BLACKLIST_PREFIX + token, true, expiration);
     }

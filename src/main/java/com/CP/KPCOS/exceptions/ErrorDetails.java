@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
+
 @Getter
 @Setter
 @Schema(description = "Error details returned in case of exceptions")
@@ -31,6 +32,7 @@ public class ErrorDetails {
         this.message = message;
         this.errors = errors;
     }
+
     public ErrorDetails(Date timestamp, int value, String message, String tokenIsRequired) {
     }
 }

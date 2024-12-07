@@ -2,7 +2,6 @@ package com.CP.KPCOS.configuration;
 
 import com.CP.KPCOS.utils.JwtUtils;
 import com.nimbusds.jwt.SignedJWT;
-
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;

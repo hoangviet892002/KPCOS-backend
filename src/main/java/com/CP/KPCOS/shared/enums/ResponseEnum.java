@@ -1,8 +1,6 @@
 package com.CP.KPCOS.shared.enums;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
@@ -17,7 +15,6 @@ public enum ResponseEnum {
     EMAIL_ALREADY_EXISTS(1005, "Email already exists", HttpStatus.BAD_REQUEST),
     TOKEN_MISSING(1006, "Token is missing", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_TOKEN(1007, "Invalid token", HttpStatus.INTERNAL_SERVER_ERROR),
-
 
 
     ;

@@ -35,11 +35,11 @@ public class SecurityConfig {
             public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
                 CorsConfiguration corsConfiguration = new CorsConfiguration();
                 corsConfiguration.setAllowedOrigins(List.of("*"));
-                corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTION"));
-                corsConfiguration.setAllowedHeaders(Arrays.asList("authorization","content-type","x-auth-token"));
+                corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTION"));
+                corsConfiguration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
                 corsConfiguration.setExposedHeaders(List.of("x-auth-token"));
-                UrlBasedCorsConfigurationSource source= new UrlBasedCorsConfigurationSource();
-                source.registerCorsConfiguration("/**",corsConfiguration);
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", corsConfiguration);
                 httpSecurityCorsConfigurer.configurationSource(source);
             }
         });
@@ -57,9 +57,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-
 
 
 }

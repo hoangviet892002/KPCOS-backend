@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class BaseResponse <T>{
+public class BaseResponse<T> {
     @JsonProperty("data")
     private T data;
     @JsonProperty("message")
