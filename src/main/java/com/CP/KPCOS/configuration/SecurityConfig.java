@@ -24,10 +24,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(requests -> {
-                    requests.anyRequest()
-                            .permitAll();
-                });
+                .authorizeHttpRequests(requests -> requests.anyRequest()
+                        .permitAll());
         http.cors(httpSecurityCorsConfigurer -> {
             CorsConfiguration corsConfiguration = new CorsConfiguration();
             corsConfiguration.setAllowedOrigins(List.of("*"));
