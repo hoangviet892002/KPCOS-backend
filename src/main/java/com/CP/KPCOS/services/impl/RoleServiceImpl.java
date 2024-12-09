@@ -2,7 +2,7 @@ package com.CP.KPCOS.services.impl;
 
 
 import com.CP.KPCOS.entity.RoleEntity;
-import com.CP.KPCOS.repository.unitofwork.IUnitOfWork;
+import com.CP.KPCOS.repository.RoleRepository;
 import com.CP.KPCOS.services.interfaces.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +14,15 @@ import reactor.core.publisher.Mono;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Service
 public class RoleServiceImpl implements RoleService {
-    IUnitOfWork unitOfWork;
+    RoleRepository roleRepository;
 
     @Override
     public Mono<RoleEntity> getRoleByName(String roleName) {
-        return unitOfWork.roleRepository().findByName(roleName);
+        return roleRepository.findByName(roleName);
     }
 
     @Override
     public Mono<RoleEntity> getCustomerRole() {
-        return unitOfWork.roleRepository().findByName("Customer");
+        return roleRepository.findByName("Customer");
     }
 }

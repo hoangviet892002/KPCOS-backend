@@ -5,7 +5,7 @@ import com.CP.KPCOS.dtos.response.object.LoginResponseApi;
 import com.CP.KPCOS.dtos.response.object.RegisterResponseApi;
 import com.CP.KPCOS.entity.UserEntity;
 import com.CP.KPCOS.exceptions.AppException;
-import com.CP.KPCOS.repository.unitofwork.IUnitOfWork;
+import com.CP.KPCOS.repository.UserRepository;
 import com.CP.KPCOS.services.interfaces.AuthService;
 import com.CP.KPCOS.services.interfaces.RoleService;
 import com.CP.KPCOS.shared.enums.ResponseEnum;
@@ -21,14 +21,14 @@ import reactor.core.publisher.Mono;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Service
 public class AuthServiceImpl implements AuthService {
-    IUnitOfWork unitOfWork;
+    UserRepository userRepository;
     PasswordEncoder passwordEncoder;
     JwtUtils jwtUtils;
     RoleService roleService;
 
     @Override
     public Mono<LoginResponseApi> login(String username, String password) {
-        return unitOfWork.userRepository().findByUsername(username)
+        return userRepository.findByUsername(username)
                 .flatMap(userEntity -> {
                     if (!passwordEncoder.matches(password, userEntity.getPassword())) {
                         return Mono.error(new AppException(ResponseEnum.WRONG_PASSWORD_OR_USERNAME));
@@ -41,19 +41,21 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Mono<RegisterResponseApi> register(String username, String email, String password) {
-        return unitOfWork.userRepository().findByUsername(username)
+        return userRepository.findByUsername(username)
                 .flatMap(existingUser -> Mono.<RegisterResponseApi>error(new AppException(ResponseEnum.USER_ALREADY_EXISTS)))
-                .switchIfEmpty(unitOfWork.userRepository().findByEmail(email)
+                .switchIfEmpty(userRepository.findByEmail(email)
                         .flatMap(existingEmail -> Mono.<RegisterResponseApi>error(new AppException(ResponseEnum.EMAIL_ALREADY_EXISTS)))
                         .switchIfEmpty(roleService.getCustomerRole()
                                 .flatMap(customerRole -> {
                                     UserEntity userEntity = new UserEntity(username, passwordEncoder.encode(password), email, customerRole);
-                                    unitOfWork.userRepository().save(userEntity);
-                                    RegisterResponseApi registerResponseApi = new RegisterResponseApi();
-                                    registerResponseApi.setUsername(userEntity.getUsername());
-                                    registerResponseApi.setEmail(userEntity.getEmail());
-                                    registerResponseApi.setRole(userEntity.getRole().getName());
-                                    return Mono.just(registerResponseApi);
+                                    return userRepository.save(userEntity)
+                                            .map(savedUser -> {
+                                                RegisterResponseApi registerResponseApi = new RegisterResponseApi();
+                                                registerResponseApi.setUsername(savedUser.getUsername());
+                                                registerResponseApi.setEmail(savedUser.getEmail());
+                                                registerResponseApi.setRole(savedUser.getRole().getName());
+                                                return registerResponseApi;
+                                            });
                                 })
                         )
                 );

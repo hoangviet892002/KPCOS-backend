@@ -1,4 +1,4 @@
-package com.CP.KPCOS.repository.repository;
+package com.CP.KPCOS.repository;
 
 import com.CP.KPCOS.entity.RoleEntity;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;

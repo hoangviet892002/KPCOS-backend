@@ -1,5 +1,5 @@
 spring:
-  datasource:
+  r2dbc:
     url: ${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
@@ -20,8 +20,6 @@ spring:
       license:
         name: Apache License Version 2.0
         url: https://www.apache.org/licenses/LICENSE-2.0
-      name: Redis API
-      url: http://localhost:8083
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
