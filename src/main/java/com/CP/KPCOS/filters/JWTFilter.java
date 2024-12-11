@@ -61,6 +61,11 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
+        if (Boolean.TRUE.equals(redisTemplate.hasKey(token))) {
+            sendErrorResponse(response, HttpStatus.UNAUTHORIZED, request.getRequestURI(), "Token is blacklisted");
+            return;
+        }
+
         try {
             jwtUtil.verifyToken(token, false);
         } catch (Exception e) {

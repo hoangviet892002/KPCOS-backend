@@ -22,8 +22,11 @@ public class CustomJwtDecoder implements JwtDecoder {
     @Override
     public Jwt decode(String token) throws JwtException {
         try {
-            SignedJWT signedJWT = SignedJWT.parse(token);
 
+            if (Boolean.TRUE.equals(redisTemplate.hasKey(token))) {
+                throw new JwtException("Token is blacklisted");
+            }
+            SignedJWT signedJWT = SignedJWT.parse(token);
 
             jwtUtil.verifyToken(token, false);
 
